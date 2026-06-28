@@ -21,8 +21,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "kk3rn3l"
+          git config user.email "23018909+kk3rn3l@users.noreply.github.com"
           git add logs/auto.md
           git diff --staged --quiet && echo "Nothing to commit" && exit 0
           git commit -m "chore: auto-commit $(date -u +%F)"
