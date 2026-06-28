@@ -1,0 +1,30 @@
+name: Auto Commit
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update file
+        run: |
+          mkdir -p logs
+          echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) — auto-commit run" >> logs/auto.md
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add logs/auto.md
+          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "chore: auto-commit $(date -u +%F)"
+          git pull --rebase origin main
+          git push
